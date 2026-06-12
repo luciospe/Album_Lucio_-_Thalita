@@ -1,0 +1,598 @@
+/* =============================================
+   MEMÓRIAS — Lucio & Thalita
+   Álbum Digital Romântico
+   style.css
+============================================== */
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --white:      #FFFFFF;
+  --cream:      #F5F0E8;
+  --cream-dark: #EDE5D4;
+  --black:      #1A1A1A;
+  --black-soft: #222222;
+  --gold:       #C9A84C;
+  --gold-light: #E2C87A;
+  --gold-pale:  #F7EDD3;
+  --shadow:     rgba(0,0,0,0.18);
+  --shadow-deep:rgba(0,0,0,0.38);
+
+  --font-hand: 'Georgia', 'Times New Roman', serif; /* fallback handwritten feel */
+  --font-display: 'Georgia', serif;
+  --font-body: 'Palatino Linotype', 'Palatino', Georgia, serif;
+
+  --transition-slow: 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-med:  0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Google Fonts import (handwriting) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+.handwritten {
+  font-family: 'Dancing Script', cursive, var(--font-hand);
+}
+
+/* =============================================
+   CAPA
+============================================== */
+.cover {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+.cover.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.96);
+}
+
+/* Textura sutil de papel */
+.cover-texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.cover-inner {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+}
+
+/* Título "MEMÓRIAS" */
+.cover-label {
+  font-family: 'Cormorant Garamond', var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 300;
+  letter-spacing: 0.55em;
+  color: var(--black);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeSlideUp 1.2s ease forwards 0.3s;
+}
+
+/* Typewriter cursor effect */
+.typewriter::after {
+  content: '|';
+  animation: blink 1s step-end infinite 1.5s;
+  opacity: 0;
+  animation-delay: 1.5s;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Coração */
+.cover-heart {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--gold);
+  margin: 0.5rem 0;
+  opacity: 0;
+  animation: fadeSlideUp 1s ease forwards 1s;
+}
+
+/* Nomes */
+.cover-names {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  font-weight: 700;
+  color: var(--black);
+  opacity: 0;
+  animation: fadeSlideUp 1s ease forwards 1.4s;
+}
+
+/* Subtítulo */
+.cover-subtitle {
+  font-family: 'Cormorant Garamond', var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1.25rem);
+  color: #555;
+  max-width: 420px;
+  margin: 1.2rem auto 2.5rem;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeSlideUp 1s ease forwards 2s;
+}
+
+/* Scroll hint */
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeSlideUp 1s ease forwards 2.7s, pulse 2.5s ease-in-out infinite 3.5s;
+}
+
+.scroll-hint span:first-child {
+  font-size: 1.4rem;
+  animation: bounce 1.8s ease-in-out infinite 3s;
+}
+
+.scroll-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+}
+
+/* Linha de ouro abaixo do título */
+.cover-label::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 1rem;
+}
+
+/* =============================================
+   ÁLBUM principal
+============================================== */
+.album {
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   PÁGINAS DO ÁLBUM
+============================================== */
+.album-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 6vw, 5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fundos alternados */
+.page-dark {
+  background: var(--black-soft);
+}
+
+.page-light {
+  background: var(--white);
+}
+
+.page-cream {
+  background: var(--cream);
+}
+
+.page-gold {
+  background: linear-gradient(135deg, #1a1200 0%, #2e2000 40%, #1a1200 100%);
+  position: relative;
+}
+
+.page-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Número da página */
+.page-number {
+  position: absolute;
+  top: 2rem;
+  right: 2.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+
+.page-number.dark {
+  color: rgba(0,0,0,0.18);
+}
+
+/* Dobra de página */
+.page-fold {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 40px 40px;
+  border-color: transparent transparent rgba(0,0,0,0.12) transparent;
+}
+
+/* ---- Layout do conteúdo interno ---- */
+.page-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  flex-wrap: wrap;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.page-content--reversed {
+  flex-direction: row-reverse;
+}
+
+/* =============================================
+   POLAROID
+============================================== */
+.polaroid-wrap {
+  position: relative;
+  display: inline-block;
+  transform: rotate(var(--rot, -2deg));
+  flex-shrink: 0;
+}
+
+.polaroid {
+  background: var(--white);
+  padding: 12px 12px 38px;
+  box-shadow:
+    0 4px 16px var(--shadow),
+    0 12px 40px var(--shadow-deep);
+  position: relative;
+  width: clamp(200px, 28vw, 280px);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: default;
+}
+
+.polaroid:hover {
+  transform: scale(1.03) rotate(0deg);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.25),
+    0 20px 60px rgba(0,0,0,0.4);
+}
+
+.polaroid-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  filter: sepia(8%) contrast(1.02) brightness(0.98);
+}
+
+/* Placeholder quando não tem foto */
+.polaroid.no-photo {
+  background: var(--cream-dark);
+}
+
+.polaroid.no-photo::after {
+  content: '[ foto ]';
+  position: absolute;
+  inset: 12px 12px 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: rgba(0,0,0,0.3);
+  background: var(--cream-dark);
+}
+
+.polaroid-caption {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Polaroid pequeno para galeria */
+.polaroid.small {
+  width: clamp(140px, 18vw, 200px);
+  padding: 8px 8px 30px;
+}
+
+/* Fitas adesivas */
+.polaroid-tape {
+  position: absolute;
+  background: rgba(255, 235, 180, 0.65);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.tape-top {
+  width: 60px;
+  height: 20px;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+.tape-left {
+  width: 20px;
+  height: 60px;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(2deg);
+}
+
+.tape-right {
+  width: 20px;
+  height: 60px;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-1deg);
+}
+
+/* =============================================
+   TEXTO DAS PÁGINAS
+============================================== */
+.page-text {
+  max-width: 380px;
+  flex: 1;
+  min-width: 240px;
+}
+
+.page-tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 0.15rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.dark-tag {
+  color: #8A6D2F;
+}
+
+.page-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+
+.dark-title {
+  color: var(--black);
+}
+
+.page-body {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+.dark-body {
+  color: rgba(0,0,0,0.55);
+}
+
+/* =============================================
+   GALERIA
+============================================== */
+.gallery-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.gallery-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--black);
+  margin-bottom: 0.8rem;
+}
+
+.gold-line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto;
+}
+
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  justify-content: center;
+  align-items: flex-end;
+  max-width: 900px;
+  width: 100%;
+}
+
+.gallery-item {
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.gallery-item:hover {
+  transform: rotate(0deg) scale(1.05);
+  z-index: 5;
+}
+
+/* =============================================
+   MENSAGEM FINAL
+============================================== */
+.final-inner {
+  max-width: 650px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.final-ornament {
+  font-size: 2rem;
+  color: var(--gold);
+  margin: 1.2rem 0;
+  display: block;
+}
+
+.final-text {
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  color: rgba(255, 235, 180, 0.88);
+  line-height: 1.9;
+  margin-bottom: 1.4rem;
+}
+
+.final-signature {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--gold-light);
+  font-weight: 700;
+  margin-top: 2rem;
+  line-height: 1.6;
+}
+
+/* =============================================
+   REVEAL ANIMATIONS (scroll-triggered)
+============================================== */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.28s; }
+.delay-3 { transition-delay: 0.46s; }
+
+/* =============================================
+   PARTÍCULAS DE CORAÇÃO
+============================================== */
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heart-particle {
+  position: absolute;
+  font-size: 0.8rem;
+  color: rgba(201, 168, 76, 0.15);
+  animation: floatUp var(--dur, 8s) linear infinite;
+  bottom: -20px;
+  left: var(--x, 50%);
+  animation-delay: var(--delay, 0s);
+  user-select: none;
+}
+
+/* =============================================
+   KEYFRAMES
+============================================== */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(1); opacity: 0.15; }
+  50%  { opacity: 0.12; }
+  100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+}
+
+/* =============================================
+   RESPONSIVO
+============================================== */
+@media (max-width: 700px) {
+  .page-content,
+  .page-content--reversed {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .polaroid-wrap {
+    align-self: center;
+  }
+
+  .page-text {
+    text-align: center;
+  }
+
+  .page-number {
+    top: 1rem;
+    right: 1.2rem;
+  }
+}
+
+/* =============================================
+   REDUCED MOTION
+============================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
